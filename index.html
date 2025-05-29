@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo das Cartinhas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div id="cards-grid" class="cards-grid">
+            <!-- As cartas serão geradas aqui pelo JavaScript -->
+        </div>
+    </div>
+
+    <div id="question-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <h2 id="popup-card-number">Carta X</h2>
+            <p id="popup-question-text">Texto da pergunta aqui...</p>
+            <button id="close-popup-btn">Fechar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

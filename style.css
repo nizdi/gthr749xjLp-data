@@ -1,0 +1,163 @@
+body {
+    background-color: #000000; /* Tela preta */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 1000px; /* Similar ao SCREEN_WIDTH do Pygame */
+}
+
+.cards-grid {
+    display: grid;
+    /* O número de colunas será definido via JavaScript */
+    gap: 15px;
+    justify-content: center;
+}
+
+.card {
+    /* A largura será calculada, a altura será proporcional */
+    aspect-ratio: 1 / 0.7; /* Largura / Altura (como no CARD_HEIGHT = CARD_WIDTH * 0.7) */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Para a aba e o número */
+    justify-content: space-between; /* Para alinhar o número melhor */
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+    color: white;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    position: relative; /* Para a aba */
+    overflow: hidden; /* Para cantos arredondados da aba */
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-flap {
+    width: 100%;
+    height: 15%; /* Similar à flap_height do Pygame */
+    background-color: rgba(0,0,0,0.2); /* Cor um pouco mais escura */
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-number {
+    font-size: 1.8em; /* Ajustar conforme necessário */
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5%; /* Pequeno ajuste para centralizar melhor */
+}
+
+/* Cores das cartas (exemplos, podem ser mais) */
+.card.color-0 { background-color: #3232C8; } /* BLUE */
+.card.color-1 { background-color: #32C832; } /* GREEN */
+.card.color-2 { background-color: #C8C832; } /* YELLOW */
+.card.color-3 { background-color: #963296; } /* PURPLE */
+.card.color-4 { background-color: #FA9632; } /* ORANGE */
+.card.color-5 { background-color: #6464FF; }
+.card.color-6 { background-color: #64FF64; }
+.card.color-7 { background-color: #FF6464; }
+
+
+.card.revealed {
+    background-color: #969696; /* GRAY */
+    cursor: default;
+}
+.card.revealed .card-flap {
+    background-color: rgba(0,0,0,0.1);
+}
+
+
+/* Pop-up da Pergunta */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escurecido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.popup-overlay.hidden {
+    display: none;
+}
+
+.popup-content {
+    background-color: #C8C8C8; /* LIGHT_GRAY */
+    color: #000000; /* POPUP_TEXT_COLOR */
+    padding: 30px;
+    border-radius: 10px;
+    border: 3px solid #000000; /* POPUP_BORDER_COLOR */
+    width: 100%;
+    max-width: 600px; /* Ajustar conforme necessário */
+    min-height: 300px; /* Ajustar conforme necessário */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.popup-content h2 {
+    margin-top: 0;
+    font-size: 1.8em;
+}
+
+.popup-content p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Para ocupar espaço disponível */
+    overflow-y: auto; /* Caso o texto seja muito grande */
+    text-align: left; /* Melhor para leitura de parágrafos */
+    padding: 0 10px;
+}
+
+#close-popup-btn {
+    background-color: #C83232; /* RED */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+    align-self: center; /* Centraliza o botão se o conteúdo for pequeno */
+}
+
+#close-popup-btn:hover {
+    background-color: #A02828;
+}
+
+/* Responsividade básica para grid de cartas */
+@media (max-width: 800px) {
+    /* .cards-grid - o número de colunas será ajustado via JS */
+    .card-number { font-size: 1.5em; }
+}
+@media (max-width: 500px) {
+    /* .cards-grid - o número de colunas será ajustado via JS */
+    .card-number { font-size: 1.2em; }
+    .popup-content { padding: 20px; }
+    .popup-content h2 { font-size: 1.5em; }
+    .popup-content p { font-size: 1em; }
+    #close-popup-btn { padding: 10px 20px; font-size: 1em;}
+}
