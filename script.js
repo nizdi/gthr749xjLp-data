@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configurações Globais ---
-    // Nomes das classes de cor definidas no style.css
     const cardColors = ['color-0', 'color-1', 'color-2', 'color-3', 'color-4', 'color-5', 'color-6', 'color-7'];
 
     // --- Dados para o "Baralho das Perguntas" ---
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "Frase teste 32", "Frase teste 33", "Frase teste 34 - Uma frase mais longa para testar a exibição e o layout."
     ];
 
-    // --- Função para inicializar um jogo de cartas ---
     function initializeCardGame(config) {
         const {
             gridId,
@@ -64,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let currentCardsPerRow = defaultCardsPerRow;
-        let cardStates = new Array(numCards).fill('closed'); // 'closed', 'revealed'
-        let activeQuestionCardIndex = null; // Índice da carta cuja pergunta está atualmente no popup
+        let cardStates = new Array(numCards).fill('closed');
+        let activeQuestionCardIndex = null;
 
         const adjustedQuestions = [];
         for (let i = 0; i < numCards; i++) {
@@ -92,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsGrid.innerHTML = '';
             for (let i = 0; i < numCards; i++) {
                 const card = document.createElement('div');
-                // Adiciona a classe de cor baseada no índice
                 card.classList.add('card', cardColors[i % cardColors.length]);
                 card.dataset.index = i;
 
@@ -115,33 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardElement = cardsGrid.children[index];
 
             if (cardStates[index] === 'closed') {
-                // Abre a pergunta
                 popupCardNumber.textContent = `${cardLabelPrefix} ${index + 1}`;
                 popupQuestionText.textContent = adjustedQuestions[index];
                 questionPopup.classList.remove('hidden');
                 activeQuestionCardIndex = index;
-
-                // Marca como revelada
                 cardStates[index] = 'revealed';
                 cardElement.classList.add('revealed');
-                // Remove todas as classes de cor originais para aplicar o estilo 'revealed'
                 cardColors.forEach(colorClass => cardElement.classList.remove(colorClass));
-
             } else if (cardStates[index] === 'revealed' && activeQuestionCardIndex === null) {
-                // Fecha uma carta já revelada (se nenhuma pergunta estiver ativa no popup desta instância)
                 cardStates[index] = 'closed';
                 cardElement.classList.remove('revealed');
-                // Readiciona a cor original da carta
                 cardElement.classList.add(cardColors[index % cardColors.length]);
             }
-            // Se clicar em uma carta revelada enquanto uma pergunta (deste baralho) está aberta, não faz nada.
-            // Se o popup ativo for de outra carta, clicar nela não a fechará,
-            // pois activeQuestionCardIndex não seria null.
         }
 
         closePopupBtn.addEventListener('click', () => {
             questionPopup.classList.add('hidden');
-            activeQuestionCardIndex = null; // Libera para interagir/fechar outras cartas
+            activeQuestionCardIndex = null;
         });
 
         document.addEventListener('keydown', (event) => {
@@ -152,27 +139,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         adjustCardsPerRowOnScreen();
         createCards();
+
+        // O listener de resize foi removido pelo usuário devido a erro de sintaxe
+        // Se desejar recolocá-lo com a sintaxe correta:
+        /*
+        window.addEventListener('resize', () => {
+            adjustCardsPerRowOnScreen();
+        });
+        */
     }
 
-    // --- Inicializar os Jogos ---
-
-    // Jogo 1: Baralho das Perguntas
     initializeCardGame({
         gridId: 'cards-grid-perguntas',
         popupId: 'popup-perguntas',
         numCards: NUM_CARDS_PERGUNTAS,
         questions: QUESTIONS_PERGUNTAS,
         cardLabelPrefix: 'Carta',
-        defaultCardsPerRow: 6 // Default para telas maiores
+        defaultCardsPerRow: 6
     });
 
-    // Jogo 2: Complete a frase...
     initializeCardGame({
         gridId: 'cards-grid-frases',
         popupId: 'popup-frases',
         numCards: NUM_CARDS_FRASES,
         questions: QUESTIONS_FRASES,
         cardLabelPrefix: 'Caixa',
-        defaultCardsPerRow: 6 // Default para telas maiores
+        defaultCardsPerRow: 6
     });
 });
