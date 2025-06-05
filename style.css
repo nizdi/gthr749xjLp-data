@@ -1,7 +1,8 @@
 body {
     background-color: #000000; /* Tela preta */
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI';
     margin: 0;
+    /* font-weight: bold;/* Texto em negrito */
     padding: 20px;
     box-sizing: border-box;
     color: #f0f0f0; /* Cor de texto padrão clara para contraste com fundo preto */
@@ -140,7 +141,7 @@ body {
 }
 
 .popup-content p { /* Estiliza .popup-question-text */
-    font-size: 1.2em;
+    font-size: 1.5em;
     line-height: 1.6;
     margin-bottom: 20px;
     flex-grow: 1;
