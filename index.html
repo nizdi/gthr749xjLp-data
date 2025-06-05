@@ -3,21 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo das Cartinhas</title>
+    <title>Jogos de Cartas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <div id="cards-grid" class="cards-grid">
-            <!-- As cartas serão geradas aqui pelo JavaScript -->
+    <div class="game-section">
+        <h1>Baralho das Perguntas</h1>
+        <div class="game-container">
+            <div id="cards-grid-perguntas" class="cards-grid">
+                <!-- Cartas geradas pelo JavaScript para o Jogo de Perguntas -->
+            </div>
+        </div>
+        <div id="popup-perguntas" class="popup-overlay hidden">
+            <div class="popup-content">
+                <h2 class="popup-card-number">Carta X</h2>
+                <p class="popup-question-text">Texto da pergunta aqui...</p>
+                <button class="close-popup-btn">Fechar</button>
+            </div>
         </div>
     </div>
 
-    <div id="question-popup" class="popup-overlay hidden">
-        <div class="popup-content">
-            <h2 id="popup-card-number">Carta X</h2>
-            <p id="popup-question-text">Texto da pergunta aqui...</p>
-            <button id="close-popup-btn">Fechar</button>
+    <div class="game-section">
+        <h1>Complete a frase...</h1>
+        <div class="game-container">
+            <div id="cards-grid-frases" class="cards-grid">
+                <!-- Cartas geradas pelo JavaScript para o Jogo de Frases -->
+            </div>
+        </div>
+        <div id="popup-frases" class="popup-overlay hidden">
+            <div class="popup-content">
+                <h2 class="popup-card-number">Caixa X</h2>
+                <p class="popup-question-text">Texto da frase aqui...</p>
+                <button class="close-popup-btn">Fechar</button>
+            </div>
         </div>
     </div>
 

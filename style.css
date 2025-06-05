@@ -1,44 +1,181 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogos de Cartas</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="game-section">
-        <h1>Baralho das Perguntas</h1>
-        <div class="game-container">
-            <div id="cards-grid-perguntas" class="cards-grid">
-                <!-- Cartas geradas pelo JavaScript -->
-            </div>
-        </div>
-        <div id="popup-perguntas" class="popup-overlay hidden">
-            <div class="popup-content">
-                <h2 class="popup-card-number">Carta X</h2>
-                <p class="popup-question-text">Texto da pergunta aqui...</p>
-                <button class="close-popup-btn">Fechar</button>
-            </div>
-        </div>
-    </div>
+body {
+    background-color: #000000; /* Tela preta */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #f0f0f0; /* Cor de texto padrão clara para contraste com fundo preto */
+}
 
-    <div class="game-section">
-        <h1>Complete a frase...</h1>
-        <div class="game-container">
-            <div id="cards-grid-frases" class="cards-grid">
-                <!-- Cartas geradas pelo JavaScript -->
-            </div>
-        </div>
-        <div id="popup-frases" class="popup-overlay hidden">
-            <div class="popup-content">
-                <h2 class="popup-card-number">Caixa X</h2>
-                <p class="popup-question-text">Texto da frase aqui...</p>
-                <button class="close-popup-btn">Fechar</button>
-            </div>
-        </div>
-    </div>
+.game-section {
+    margin-bottom: 40px;
+    padding: 10px; /* Reduzido para não adicionar muito espaço extra */
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+.game-section h1 {
+    text-align: center;
+    color: #f0f0f0; /* Cor clara para o título */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 1000px; /* Similar ao SCREEN_WIDTH do Pygame */
+    margin: 0 auto; /* Centraliza o container do jogo */
+}
+
+.cards-grid {
+    display: grid;
+    /* O número de colunas será definido via JavaScript */
+    gap: 15px;
+    justify-content: center;
+}
+
+.card {
+    aspect-ratio: 1 / 0.7; /* Largura / Altura (altura = 70% da largura) */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+    color: white;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(255,255,255,0.1); /* Sombra mais clara para fundo escuro */
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-flap {
+    width: 100%;
+    height: 15%;
+    background-color: rgba(255,255,255,0.1); /* Aba um pouco mais clara no fundo escuro */
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-number {
+    font-size: 1.8em;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5%;
+}
+
+/* Cores das cartas (do style (1).css) */
+.card.color-0 { background-color: #3232C8; } /* BLUE */
+.card.color-1 { background-color: #32C832; } /* GREEN */
+.card.color-2 { background-color: #C8C832; } /* YELLOW */
+.card.color-3 { background-color: #963296; } /* PURPLE */
+.card.color-4 { background-color: #FA9632; } /* ORANGE */
+.card.color-5 { background-color: #6464FF; }
+.card.color-6 { background-color: #64FF64; }
+.card.color-7 { background-color: #FF6464; }
+
+
+.card.revealed {
+    background-color: #969696; /* GRAY */
+    cursor: default; /* A carta revelada não precisa de cursor pointer se não tiver ação */
+}
+.card.revealed .card-flap {
+    background-color: rgba(0,0,0,0.1); /* Flap mais escura na carta cinza */
+}
+.card.revealed:hover {
+    transform: none; /* Sem hover effect na carta revelada */
+}
+
+
+/* Pop-up da Pergunta (do style (1).css) */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escurecido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.popup-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.popup-content {
+    background-color: #C8C8C8; /* LIGHT_GRAY */
+    color: #000000; /* POPUP_TEXT_COLOR */
+    padding: 30px;
+    border-radius: 10px;
+    border: 3px solid #000000; /* POPUP_BORDER_COLOR */
+    width: 100%;
+    max-width: 600px;
+    min-height: 250px; /* Ajustado um pouco */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.popup-content h2 { /* Estiliza .popup-card-number */
+    margin-top: 0;
+    font-size: 1.8em;
+    color: #000000;
+}
+
+.popup-content p { /* Estiliza .popup-question-text */
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: left;
+    padding: 0 10px;
+    color: #000000;
+}
+
+.close-popup-btn { /* Alterado de ID para classe */
+    background-color: #C83232; /* RED */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+    align-self: center;
+}
+
+.close-popup-btn:hover {
+    background-color: #A02828;
+}
+
+/* Responsividade básica (do style (1).css) */
+@media (max-width: 800px) {
+    .card-number { font-size: 1.5em; }
+    .game-section h1 { font-size: 1.8em; }
+}
+@media (max-width: 500px) {
+    .card-number { font-size: 1.2em; }
+    .popup-content { padding: 20px; min-height: 200px;}
+    .popup-content h2 { font-size: 1.5em; }
+    .popup-content p { font-size: 1em; }
+    .close-popup-btn { padding: 10px 20px; font-size: 1em;}
+    .game-section h1 { font-size: 1.5em; }
+}
