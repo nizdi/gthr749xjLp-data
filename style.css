@@ -1,8 +1,16 @@
 body {
     background-color: #000000; /* Tela preta */
-    font-family: 'Segoe UI';
+    /*
+      Prioridade:
+      1. Segoe UI (Windows)
+      2. Roboto (Android, Chrome OS - visualmente similar e moderna)
+      3. -apple-system, BlinkMacSystemFont (para macOS e iOS, usa a fonte do sistema como San Francisco)
+      4. Helvetica Neue, Helvetica, Arial (fontes sans-serif muito comuns como fallback)
+      5. sans-serif (qualquer fonte sans-serif padrão do sistema se nenhuma das anteriores for encontrada)
+    */
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
-    /* font-weight: bold;/* Texto em negrito */
+    /* font-weight: bold; /* Se quiser todo o texto do body em negrito, descomente */
     padding: 20px;
     box-sizing: border-box;
     color: #f0f0f0; /* Cor de texto padrão clara para contraste com fundo preto */
